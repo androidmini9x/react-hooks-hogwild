@@ -1,16 +1,32 @@
-import React from "react";
-import piggy from "../assets/porco.png";
+import React, {useState} from "react";
 
-const Nav = () => {
+const Nav = ({hogData}) => {
+
+	const [isToggle, setToggle] = useState(false);
+	const [hide, setHide] = useState(false);
+
+	function handleDetails() {
+		setToggle(!isToggle);
+	}
+
+	const details = <>
+		<b>Specialty: </b>{hogData.specialty}, <b>Weight: </b>{hogData.weight}, <b>Greased: </b>{hogData.greased ? "Yes" : "No"}, <b>Highest medal achieved: </b>{hogData["highest medal achieved"]}
+	</>;
+
+	const hideStyle = hide ? {display: "none"} : null;
+
 	return (
-		<div className="navWrapper">
-			<span className="headerText">HogWild</span>
-			<div className="TwirlyPig">
-				<img src={piggy} className="App-logo" alt="piggy" />
+		<div style={hideStyle} className="card" onClick={() => handleDetails()}>
+			<div className="image">
+				<img src={hogData.image} alt={hogData.name} />
 			</div>
-			<span className="normalText">
-				A React App for County Fair Hog Fans
-			</span>
+			<div className="content">
+				<span className="header">{hogData.name}</span>
+				<span className="description">
+					{isToggle && details}
+				</span>
+			</div>
+			<button className="ui toggle button" onClick={() => setHide(!hide)}><i class="eye icon"></i> hide</button>
 		</div>
 	);
 };
